@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мой Mini App</title>
+    <!-- Подключаем скрипт Telegram (обычно он уже встроен, но для ясности) -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 20px;
+            text-align: center;
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #2ea6ff);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="greeting">Привет!</h1>
+    <button onclick="sendData()">Отправить данные боту</button>
+
+    <script>
+        // Инициализируем WebApp
+        const tg = window.Telegram.WebApp;
+        tg.ready(); // Сообщаем Telegram, что приложение готово
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Получаем данные пользователя
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('greeting').innerText = `Привет, ${user.first_name}!`;
+        }
+
+        // Функция для отправки данных боту
+        function sendData() {
+            const data = { action: "hello", message: "Данные из Mini App" };
+            tg.sendData(JSON.stringify(data)); // Отправляет данные боту как сервисное сообщение
+            tg.close(); // Закрывает Mini App
+        }
+    </script>
+</body>
+</html>
